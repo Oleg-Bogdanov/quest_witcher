@@ -1,6 +1,7 @@
 import telebot
 from telebot import types
-from info import user_data, lok
+from info import user_data, lok, lore_info, monster_list
+from media import images
 import json
 token = '6668531597:AAG8Uy3tgPBbuRKTeE7t9pGAd0eKtlsQySE'
 bot = telebot.TeleBot(token)
@@ -48,10 +49,12 @@ def save_user_name(message):
 def loc_Novigrad(message):
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['Новиград']
     loket = lok[1]['Новиград']['description']
-    kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[1]['answers']:
+        kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_1)
     save_data(data)
@@ -64,14 +67,15 @@ def con_1(message):
         loc_att_place(message)
 
 def loc_Scelige(message):
-    msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['Скелиге']
     loket = lok[2]['Скелиге']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[2]['answers']:
         kb.add(answer)
-    msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
+    bot.send_photo(message.chat.id, img)
+    msg = bot.edit_message_text(chat_id=message.chat.id, message_id=msg.message_id, text=loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_2)
     save_data(data)
 
@@ -87,11 +91,15 @@ def loc_Undvic(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['Ундвик1']
+    img2 = images['Ундвик2']
     loket = lok[5]['Ундвик']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[5]['answers']:
         kb.add(answer)
-    msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
+    bot.send_photo(message.chat.id, img)
+    bot.send_photo(message.chat.id, img2)
+    msg = bot.edit_message_text(chat_id=message.chat.id, message_id=message.id, text=loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_3)
     save_data(data)
 
@@ -107,7 +115,9 @@ def Undvic_bad(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['меч']
     loket = lok[8]['Ундвик плохой исход']['description']
+    bot.send_photo(message.chat.id, img)
     bot.send_message(message.chat.id, loket)
     save_data(data)
 
@@ -116,7 +126,11 @@ def Undvic_good(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['меч']
+    img2 = images['тронный зал']
     loket = lok[9]['Ундвик хороший исход']['description']
+    bot.send_photo(message.chat.id, img)
+    bot.send_photo(message.chat.id, img2)
     bot.send_message(message.chat.id, loket)
     save_data(data)
 
@@ -125,10 +139,12 @@ def loc_att_place(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['место нападения']
     loket = lok[3]['место нападения']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[3]['answers']:
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_4)
     save_data(data)
@@ -145,10 +161,12 @@ def battle(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['логово вампира']
     loket = lok[4]['логово']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[4]['answers']:
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     data[str(user_id)]["loc4"] = message.text
     bot.register_next_step_handler(msg, con_5)
@@ -166,6 +184,8 @@ def pub(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['корчма']
+    bot.send_photo(message.chat.id, img)
     loket = lok[6]['корчма']['description']
     bot.send_message(message.chat.id, loket)
 
@@ -174,10 +194,12 @@ def enemy_lair(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['убежище Таулера']
     loket = lok[7]['Убежище врага']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[7]['answers']:
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     data[str(user_id)]["loc4"] = message.text
     bot.register_next_step_handler(msg, con_6)
@@ -195,10 +217,12 @@ def Caer_Morhen(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['Каер Морхен']
     loket = lok[10]['Ламбрет хороший исход']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[10]['answers']:
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket)
     data[str(user_id)]["loc4"] = message.text
     bot.register_next_step_handler(msg, con_5)
@@ -209,10 +233,12 @@ def tawerna(message):
     msg = None
     user_id = str(message.from_user.id)
     data = load_data()
+    img = images['таверна']
     loket = lok[11]['Ламбрет плохой исход']['description']
     kb = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=False, one_time_keyboard=True)
     for answer in lok[11]['answers']:
         kb.add(answer)
+    bot.send_photo(message.chat.id, img)
     msg = bot.send_message(message.chat.id, loket)
     data[str(user_id)]["loc4"] = message.text
     bot.register_next_step_handler(msg, con_5)
@@ -231,6 +257,16 @@ def help(message):
                                       '/play - начать игру\n'
                                       '/lore - немного информации о мире 🗺\n'
                                       '/bestiary - некоторые монстры, которые встретятся по сюжету 📖')
+
+
+@bot.message_handler(commands=['lore'])
+def lore(message):
+    bot.send_message(message.chat.id, lore_info)
+
+
+@bot.message_handler(commands=['bestiary'])
+def bestiary(message):
+    bot.send_message(message.chat.id, monster_list)
 
 # if __name__ == "__bot__":
 #     bot.infinity_polling(none_stop=True)
