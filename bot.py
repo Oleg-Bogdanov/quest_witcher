@@ -75,7 +75,7 @@ def loc_Scelige(message):
     for answer in lok[2]['answers']:
         kb.add(answer)
     bot.send_photo(message.chat.id, img)
-    msg = bot.edit_message_text(chat_id=message.chat.id, message_id=msg.message_id, text=loket, reply_markup=kb)
+    msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_2)
     save_data(data)
 
@@ -99,7 +99,7 @@ def loc_Undvic(message):
         kb.add(answer)
     bot.send_photo(message.chat.id, img)
     bot.send_photo(message.chat.id, img2)
-    msg = bot.edit_message_text(chat_id=message.chat.id, message_id=message.id, text=loket, reply_markup=kb)
+    msg = bot.send_message(message.chat.id, loket, reply_markup=kb)
     bot.register_next_step_handler(msg, con_3)
     save_data(data)
 
